@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/icon" lang="icon">
+        <file>Ressources/nour.png</file>
+        <file>Ressources/fruits.png</file>
+        <file>Ressources/ouvrier.png</file>
+        <file>Ressources/matos.png</file>
+        <file>Ressources/animal.png</file>
+        <file>Ressources/log.jpg</file>
+        <file>Ressources/log2.jpg</file>
+        <file>Ressources/arrow-up-icon.png</file>
+        <file>Ressources/arrow-up-iconn.png</file>
+        <file>Ressources/172051-Sun-clouds-grass-vector_art.jpg</file>
+        <file>Ressources/Illustration_of_Farm_Field_agriculture.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>../arrow-up-icon.png</file>
+        <file>../arrow-up-iconn.png</file>
+        <file>Ressources/zoom-search-2-icon.png</file>
+        <file>Ressources/close_red.png</file>
+        <file>Ressources/calculator-icon.png</file>
+    </qresource>
+</RCC>

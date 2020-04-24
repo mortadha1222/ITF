@@ -1,0 +1,61 @@
+
+
+*{
+  font-family:Arial;
+  font-size: 13px;
+    font-weight:bold;
+
+  }
+
+
+QTabWidget::pane {
+    background:rgba(255,255,255,0);
+    border:0;
+}
+
+QTabBar::tab {
+background:rgba(85, 255, 127,1);
+}
+QPushButton { qproperty-iconSize: 35px 35px; }
+
+QGroupBox{
+background:rgba(0,255,10,0.3);
+
+}
+
+
+QPushButton {
+border-radius:6px;
+background:rgba(85, 255, 127,0.8);
+
+}
+
+
+QPushButton:hover:!pressed{
+
+   background:rgba(85, 255, 127,1);
+}
+
+
+QLineEdit:read-only {
+background:rgba(85, 255, 127,0.8);
+
+    color:rgba(255, 255,255,1);
+}
+
+
+
+QScrollBar:horizontal {
+    border: 2px solid green;
+    background: #32CC99;
+    height: 15px;
+    margin: 0px 20px 0 20px;
+
+}
+
+
+
+QTableView {
+    selection-background-color:rgba(85, 255, 127,0.2);
+}
+
