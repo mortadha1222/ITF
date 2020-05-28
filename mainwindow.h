@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include "plante.h"
 #include "produitv.h"
-
-
+#include <QSystemTrayIcon>
+#include"conges.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -125,9 +125,27 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
+    void on_products_clicked();
+
+    void on_nomproduitrecherche_textChanged(const QString &arg1);
+    
+    void on_graph_clicked();
+
+    void on_homee_clicked();
+
+    void on_demandec_clicked();
+
+    void on_annulc_clicked();
+
+    void on_ajouter_4_clicked();
+
+    void on_minec_clicked();
+
 private:
     Ui::MainWindow *ui;
     plante tmpplante;
     produitv tmpproduitv;
+      QSystemTrayIcon *mysystem;
+          conge tmpconge;
 };
 #endif // MAINWINDOW_H

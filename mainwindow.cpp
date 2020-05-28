@@ -11,8 +11,9 @@
 #include<QPrinter>
 #include<QPrintDialog>
 //#include "mailing/SmtpMime"
-
+#include<QPoint>
 #include <QPainter>
+#include<graph.h>
 #include<QtPrintSupport>
 #include<smtpp.h>
 #include "mainwindow.h"
@@ -27,6 +28,8 @@
 #include <QMessageBox>
 #include<QDebug>
 #include<QPixmap>
+#include<conges.h>
+#include <QSystemTrayIcon>
 QT_CHARTS_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -42,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->pushButton_2, SIGNAL(clicked()),this, SLOT(sendMail()));
    // ui->stackedWidget_2->setCurrentIndex(0);
     //QPixmap px("C:/Users/ahmed/Documents/testqt/Ressources/log.jpg");
+
+  mysystem=new QSystemTrayIcon(this);
+  mysystem->setIcon(QIcon("C:/Users/asus/Desktop\testq/user.ico"));
+  mysystem->setVisible(true);
 
 }
 
@@ -652,3 +659,364 @@ void MainWindow::on_supprimerproduitv_2_clicked()
        ui->stackedWidget_2->setCurrentIndex(1);
 }
 
+
+
+void MainWindow::on_products_clicked()
+{
+    QString nom= ui->modnom->text();
+
+         QSqlQuery query;
+
+         query.prepare("SELECT NOM_PLANTE FROM PRODUIT_VEGETAL");
+
+         query.exec();
+
+         QMessageBox::information(this, "titre",query.value(0).toString());
+}
+
+void MainWindow::on_graph_clicked()
+{
+     ui->stackedWidget_2->setCurrentIndex(10);
+     QSqlQuery query;
+
+     query.prepare("SELECT NOM_PLANTE FROM PLANTE WHERE ZONE=1");
+
+     query.exec();
+
+
+
+    QGraphicsScene *scene;
+   // QGraphicsEllipseItem *ellipse;
+   QGraphicsRectItem *rectangle1;
+      QGraphicsRectItem *rectangle2;
+         QGraphicsRectItem *rectangle3;
+            QGraphicsRectItem *rectangle4;
+
+
+scene=new QGraphicsScene(this);
+ui->graphicsView->setScene(scene);
+
+
+    QPen blackpen(Qt::black);
+    blackpen.setWidth(6);
+
+     QBrush redBrush(Qt::red);
+QBrush greenBrush(Qt::green);
+float w=0;
+float w2=0;
+float w3=0;
+float w4=0;
+int col=0;
+int col2=0;
+int col3=0;
+int col4=0;
+
+
+
+QString val="4";
+QSqlQuery q;
+q.prepare("select nom_plante,surface,nombre from PLANTE where zone=1");
+if(q.exec())
+  while (q.next()) {
+      ui->z1->setText(ui->z1->text()+"\n"+q.value(0).toString());
+
+      w+=q.value(1).toFloat();
+col+=q.value(2).toInt();
+ }
+
+
+
+QSqlQuery q2;
+q2.prepare("select nom_plante,surface,nombre from PLANTE where zone=2");
+if(q2.exec())
+  while (q2.next()) {
+      ui->z2->setText(ui->z2->text()+"\n"+q2.value(0).toString());
+
+      w2+=q2.value(1).toFloat();
+
+col2+=q2.value(2).toInt();
+ }
+
+
+
+QSqlQuery q3;
+q3.prepare("select nom_plante,surface,nombre  from PLANTE where zone=3");
+if(q3.exec())
+  while (q3.next()) {
+      ui->z3->setText(ui->z3->text()+"\n"+q3.value(0).toString());
+      w3+=q3.value(1).toFloat();
+col3+=q3.value(2).toInt();
+
+ }
+
+
+
+QSqlQuery q4;
+q4.prepare("select nom_plante,surface,nombre from PLANTE where zone=4");
+if(q4.exec())
+  while (q4.next()) {
+      ui->z4->setText(ui->z4->text()+"\n"+q4.value(0).toString());
+      w4+=q4.value(1).toFloat();
+
+col4+=q4.value(2).toInt();
+
+ }
+
+
+
+//
+
+QColor c1(254,240,217);
+c1.setRgb(254,240,217);
+QBrush b1(c1);
+
+b1.setColor(c1);
+//
+
+QColor c2(253,204,138);
+c2.setRgb(253,204,138);
+QBrush b2(c2);
+
+b2.setColor(c2);
+
+//
+
+QColor c3(252,141,89);
+c3.setRgb(252,141,89);
+QBrush b3(c3);
+
+b3.setColor(c3);
+
+//
+
+QColor c4(227,74,51);
+c4.setRgb(227,74,51);
+QBrush b4(c4);
+
+b4.setColor(c4);
+
+//
+
+QColor c5(179,0,0);
+c5.setRgb(179,0,0);
+QBrush b5(c5);
+
+b5.setColor(c5);
+
+if( ui->z1->text()=="")
+{
+
+    rectangle1=scene->addRect(0,0,100,100,blackpen,greenBrush);
+}
+else
+{
+if(col<=250)
+{
+    rectangle1=scene->addRect(0,0,100,w,blackpen,b1);
+}
+if(col<=500 && col>250)
+{
+        rectangle1=scene->addRect(0,0,100,w,blackpen,b2);
+}
+
+if(col<=750 && col>500)
+{
+        rectangle1=scene->addRect(0,0,100,w,blackpen,b3);
+}
+
+if(col<=1000 && col>750)
+{
+      rectangle1=scene->addRect(0,0,100,w,blackpen,b4);
+}
+if(col>1000)
+{
+      rectangle1=scene->addRect(0,0,100,w,blackpen,b5);
+}
+
+}
+
+
+    if( ui->z2->text()=="")
+{
+        rectangle2=scene->addRect(0,100,100,100,blackpen,greenBrush);
+
+}
+else
+{
+
+
+        if(col2<=250)
+        {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b1);        }
+        if(col2<=500 && col2>250)
+        {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b2);        }
+
+        if(col2<=750 && col2>500)
+        {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b3);        }
+
+        if(col2<=1000 && col2>750)
+        {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b4);        }
+        if(col2>1000)
+        {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b5);        }
+
+
+}
+
+    if( ui->z3->text()=="")
+{
+        rectangle3=scene->addRect(0,200,200,100,blackpen,greenBrush);
+
+}
+else
+{
+
+        if(col3<=250)
+        {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b1);        }
+        if(col3<=500 && col3>250)
+        {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b2);       }
+
+        if(col3<=750 && col3>500)
+        {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b3);        }
+
+        if(col3<=1000 && col3>750)
+        {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b4);        }
+        if(col3>1000)
+        {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b5);        }
+
+      /*  ui->z3->setText(query.value(0).toString());
+
+        query.prepare("SELECT NOM_PLANTE FROM PLANTE WHERE ZONE=3");
+
+        query.exec();*/
+
+}
+
+
+    if( ui->z4->text()=="")
+{
+        rectangle4=scene->addRect(0,300,100,100,blackpen,greenBrush);
+
+}
+else
+{
+
+        if(col4<=250)
+        {
+            rectangle4=scene->addRect(0,300,100,w4,blackpen,b1);
+       }
+        if(col4<=500 && col4>250)
+        {
+            rectangle4=scene->addRect(0,300,100,w4,blackpen,b2);
+      }
+
+        if(col4<=750 && col4>500)
+        {
+            rectangle4=scene->addRect(0,300,100,w4,blackpen,b3);
+        }
+
+        if(col4<=1000 && col4>750)
+        {
+            rectangle4=scene->addRect(0,300,100,w4,blackpen,b4);
+        }
+        if(col4>1000)
+        {
+            rectangle4=scene->addRect(0,300,100,w4,blackpen,b5);
+       }
+
+}
+
+
+
+}
+
+void MainWindow::on_homee_clicked()
+{
+    ui->stackedWidget_2->setCurrentIndex(1);
+    ui->z1->setText("");
+
+    ui->z2->setText("");
+
+    ui->z3->setText("");
+
+    ui->z4->setText("");
+
+}
+
+void MainWindow::on_demandec_clicked()
+{
+     ui->stackedWidget_2->setCurrentIndex(11);
+}
+
+void MainWindow::on_annulc_clicked()
+{
+     ui->stackedWidget_2->setCurrentIndex(1);
+}
+
+void MainWindow::on_ajouter_4_clicked()
+{
+
+    conge c1;
+    bool testc=0;
+////////////////////////////////////////////////CONDITION DE SAISIE////////////////////////////////////////////////
+  //condition de saisie du cause
+   if(ui->mcause_2->text()=="" || ui->mcause_2->text()=="   *champ obligatoire")
+     {  ui->mcause_2->setText("   *champ obligatoire");
+   testc=1;}
+    else
+       c1.set_cause(ui->mcause_2->text());
+  //condition de saisie du id
+   if( ui->lineEdit_id_8->text().toInt()<0|| ui->lineEdit_id_8->text().toInt()>=100000 || ui->lineEdit_id_8->text().toInt()==0 || ui->lineEdit_id_8->text()=="   *champ obligatoire")
+   { if(ui->lineEdit_id_8->text().toInt()==0)
+          {  ui->lineEdit_id_8->setText("   *champ obligatoire");
+       testc=1;}
+
+       else
+          { ui->lineEdit_id_8->setText("   capacite non valide");
+       testc=1;
+       }}
+    else
+       c1.set_id(ui->lineEdit_id_8->text().toInt());
+////////////////////////////////////////////////CONDITION DE SAISIE////////////////////////////////////////////////
+   // part 1
+   int id = ui->lineEdit_id_8->text().toInt();
+    //QDate date1= ui->lineEdit_nom_8->date();
+    //QString date_debut=date1.toString();
+    QString date_debut= ui->lineEdit_nom_8->text();
+    QString date_fin= ui->lineEdit_prenom_8->text();
+    QString cause= ui->mcause_2->text();
+    //part 2 (constructeur)
+     conge  c (id,date_debut,date_fin,cause,"");
+     bool test=c.ajouter();
+     if(test && testc==0)
+     { /////////////////NOTIFICATION//////////////
+      mysystem->showMessage(tr("notification"),tr("ajout avec succes"));
+       /////////////////NOTIFICATION//////////////
+      //ui->tabconge_8->setModel(tmpconge.afficher());//refresh
+      QMessageBox::information(nullptr, QObject::tr("Ajouter un conge"),
+      QObject::tr("conge ajouté.\n"
+      "Click Cancel to exit."), QMessageBox::Cancel);
+     }
+     else
+     QMessageBox::information(nullptr, QObject::tr("Ajouter un conge"),
+     QObject::tr("Erreur !.\n"
+     "Click Cancel to exit."), QMessageBox::Cancel);
+     ui->lineEdit_nom_8->clear();
+     ui->lineEdit_prenom_8->clear();
+     ui->mcause_2->clear();
+
+    }
+
+void MainWindow::on_minec_clicked()
+{
+    int id=ui->rechercheperso_10->text().toInt();
+    ui->tabperso_8->setModel(tmpconge.recherche(id));
+}
