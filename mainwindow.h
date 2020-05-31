@@ -639,6 +639,20 @@ private slots:
 
     void on_demandec_clicked();
 
+    void on_modifier_5_clicked();
+
+    void on_supprimer_5_clicked();
+
+    void on_decroissant_4_clicked();
+
+    void on_rechercheperso_8_textChanged(const QString &arg1);
+
+    void on_pushButton_16_clicked();
+
+    void on_modifier_6_clicked();
+
+    void on_tabconge_9_activated(const QModelIndex &index);
+
 private:
     Email createEmail();
     Email createEmail_2();

@@ -2649,6 +2649,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
    if(index==1){ ui->tabouv->setModel(tmpouvrier.afficher());}
 else if(index==0) {ui->tabprofil->setModel(tmpprofil.afficher()); }
+   else if(index==2 ){            ui->tabconge_9->setModel(tmpconge.afficher()); }
 }
 
 void MainWindow::on_trieup_profile_clicked()
@@ -5557,4 +5558,179 @@ void MainWindow::on_demandec_clicked()
     ui->stackedWidget_2->setCurrentIndex(27);
     ui->tabperso_8->setModel(tmpconge.recherche(idp.toInt()));
 
+}
+
+void MainWindow::on_modifier_5_clicked()
+{
+    conge co1;
+
+        // part 1
+        //qDebug() << "test1" ;
+        int id = ui->mid_2->text().toInt();
+        QString date_debut= ui->mdate_debut_2->text();
+        QString date_fin= ui->mdate_fin_2->text();
+        QString cause= ui->mcause_4->text();
+        QString reponse= ui->mreponse_2->currentText();
+        //part 2 (constructeur)
+    //qDebug() << "test2" ;
+         conge  co (id,date_debut,date_fin,cause,reponse,idp.toInt());
+         bool test=co.modifier();
+    //qDebug() << "test3" ;
+         if(test)
+         {
+          ui->tabconge_9->setModel(tmpconge.afficher());//refresh
+          QMessageBox::information(nullptr, QObject::tr("modifier un conge"),
+          QObject::tr("conge modifier.\n"
+          "Click Cancel to exit."), QMessageBox::Cancel);
+         }
+         else
+         QMessageBox::critical(nullptr, QObject::tr("modifier  un conge"),
+         QObject::tr("Erreur !.\n"
+         "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+void MainWindow::on_supprimer_5_clicked()
+{
+    int id = ui->rechercheperso_8->text().toInt();
+        QMessageBox msgBox;
+        msgBox.setText("The document has been modified.");
+        msgBox.setInformativeText("voulez vous vraiment supprimer cet id?");
+        msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+            int ret = msgBox.exec();
+        switch (ret) {
+          case QMessageBox::Yes:
+            tmpconge.supprimer(id);
+            ui->tabconge_9->setModel(tmpconge.afficher());
+
+              break;
+          case QMessageBox::No:
+              // Don't Save was clicked
+              break;
+
+          default:
+              // should never be reached
+              break;
+        }
+}
+
+void MainWindow::on_decroissant_4_clicked()
+{
+    ui->tabconge_9->setModel(tmpconge.afficherdecroissant());
+
+}
+
+void MainWindow::on_rechercheperso_8_textChanged(const QString &arg1)
+{
+    ui->tabconge_9->setModel(tmpconge.recherches(arg1));
+
+}
+
+void MainWindow::on_pushButton_16_clicked()
+{
+    //////////PDF
+       QPdfWriter pdf(exporter+"conges.pdf");
+        QPainter painter(&pdf);
+       int i = 4000;
+            painter.setPen(Qt::blue);
+            painter.setFont(QFont("Arial", 30));
+            painter.drawText(1100,1200,"Liste Des conges");
+            painter.setPen(Qt::black);
+            painter.setFont(QFont("Arial", 15));
+           //painter.drawText(1100,2000,afficheDC);
+            painter.drawRect(100,100,7300,3000);
+            painter.drawPixmap(QRect(7600,70,2000,2600),QPixmap("C:/Users/hp/Desktop/eya/logo.jpg"));
+            painter.drawRect(0,3000,9600,500);
+            painter.setFont(QFont("Arial", 9));
+            painter.drawText(200,3300,"ID");
+            painter.drawText(1300,3300,"DATE_DEBUT");
+            painter.drawText(2500,3300,"DATE_FIN");
+            painter.drawText(3600,3300,"CAUSE");
+            painter.drawText(4700,3300,"REPONSE");
+            QSqlQuery query;
+            query.prepare("select * from conges");
+            query.exec();
+            while (query.next())
+            {
+                painter.drawText(200,i,query.value(0).toString());
+                painter.drawText(1300,i,query.value(1).toString());
+                painter.drawText(2200,i,query.value(2).toString());
+                painter.drawText(3200,i,query.value(3).toString());
+                painter.drawText(4300,i,query.value(4).toString());
+               i = i + 500;
+            }
+            int reponse = QMessageBox::question(this, "Génerer PDF", "<PDF Enregistré>...Vous Voulez Affichez Le PDF ?", QMessageBox::Yes |  QMessageBox::No);
+                if (reponse == QMessageBox::Yes)
+                {
+
+                    painter.end();
+                }
+                if (reponse == QMessageBox::No)
+                {
+                     painter.end();
+                }
+}
+
+void MainWindow::on_modifier_6_clicked()
+{
+    //IMPRIMER
+     QString strStream;
+        QTextStream out(&strStream);
+        const int rowCount = ui->tabconge_9->model()->rowCount();
+        const int columnCount = ui->tabconge_9->model()->columnCount();
+        QString TT = QDate::currentDate().toString("yyyy/MM/dd");
+        out <<"<html>\n"
+            "<head>\n"
+            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+            << "<title>ERP - COMmANDE LIST<title>\n "
+            << "</head>\n"
+            "<body bgcolor=#ffffff link=#5000A0>\n"
+            "<h1 style=\"text-align: center;\"><strong> *****LISTE DES Réservations ***** "+TT+"</strong></h1>"
+            "<table style=\"text-align: center; margin:auto; font-size: 20px;\" border=1>\n "
+            "</br> </br>";
+            // headers
+            out << "<thead><tr bgcolor=#d6e5ff>";
+            for (int column = 0; column < columnCount; column++)
+            if (!ui->tabconge_9->isColumnHidden(column))
+        out << QString("<th>%1</th>").arg(ui->tabconge_9->model()->headerData(column, Qt::Horizontal).toString());
+        out << "</tr></thead>\n";
+
+       // data table
+       for (int row = 0; row < rowCount; row++)
+       {
+       out << "<tr>";
+       for (int column = 0; column < columnCount; column++) {
+       if (!ui->tabconge_9->isColumnHidden(column)) {
+       QString data =ui->tabconge_9->model()->data(ui->tabconge_9->model()->index(row, column)).toString().simplified();
+       out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+       }
+       }
+       out << "</tr>\n";
+       }
+       out <<  "</table>\n"
+               "</body>\n"
+               "</html>\n";
+       QTextDocument *document = new QTextDocument();
+                      document->setHtml(strStream);
+       QPrinter printer;
+       QPrintDialog *dialog = new QPrintDialog(&printer, nullptr);
+                        if (dialog->exec() == QDialog::Accepted) {
+                            document->print(&printer);
+                        }
+                        delete document;
+}
+
+void MainWindow::on_tabconge_9_activated(const QModelIndex &index)
+{
+    QString val=ui->tabconge_9->model()->data(index).toString();
+       QSqlQuery q;
+       q.prepare("select id,date_debut,date_fin,cause,reponse from conges where id='"+val+"'");
+       if(q.exec())
+          while (q.next()) {
+          ui->mid_2->setText(q.value(0).toString());
+          ui->mdate_debut_2->setText(q.value(1).toString());
+          ui->mdate_fin_2->setText(q.value(2).toString());
+          ui->mcause_4->setText(q.value(3).toString());
+          QString reponse= ui->mreponse_2->currentText();
+         }
 }
