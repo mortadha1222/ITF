@@ -31,6 +31,7 @@
 #include "vehicule.h"
 #include "produit.h"
 #include "animal.h"
+#include "conges.h"
 //Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 
 QT_BEGIN_NAMESPACE
@@ -632,6 +633,12 @@ private slots:
 
     void on_pushButton_15_clicked();
 
+    void on_annulc_clicked();
+
+    void on_ajouter_4_clicked();
+
+    void on_demandec_clicked();
+
 private:
     Email createEmail();
     Email createEmail_2();
@@ -669,6 +676,7 @@ private:
     int   aze;
     Animal tmpanimal;
     Produit tmpprod;
+    conge tmpconge;
 
 protected:
     void changeEvent(QEvent*);
