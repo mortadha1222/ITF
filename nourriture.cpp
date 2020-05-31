@@ -102,7 +102,20 @@ model->setHeaderData(4, Qt::Horizontal, QObject::tr("prix"));
 model->setHeaderData(5, Qt::Horizontal, QObject::tr("quantite"));
 return model;
 }
-
+QSqlQueryModel * nourriture::affichernr(QString val ,QString valt )
+{QSqlQueryModel * model= new QSqlQueryModel();
+if(valt =="Standard" )
+ { model->setQuery("select * from nourriture where REF_NOURRITURE ="+val+"");  }
+else
+{ model->setQuery("select * from nourriture where REF_NOURRITURE like '%"+val+"%'"); }
+model->setHeaderData(0, Qt::Horizontal, QObject::tr("ref_n"));
+model->setHeaderData(1, Qt::Horizontal, QObject::tr("id_F "));
+model->setHeaderData(2, Qt::Horizontal, QObject::tr("Nom_n"));
+model->setHeaderData(3, Qt::Horizontal, QObject::tr("date_n"));
+model->setHeaderData(4, Qt::Horizontal, QObject::tr("prix"));
+model->setHeaderData(5, Qt::Horizontal, QObject::tr("quantite"));
+return model;
+}
 bool nourriture::supprimern(QString ref)
 {
 QSqlQuery query;

@@ -18,6 +18,7 @@ public:
     float get_prix();
     float get_q();
    bool ajoutern();
+   QSqlQueryModel * affichern();
    QSqlQueryModel * affichernqd(QString,QString);
    QSqlQueryModel * affichernqa(QString,QString);
    QSqlQueryModel * affichernr(QString , QString);
