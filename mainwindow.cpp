@@ -6001,4 +6001,10 @@ else
 void MainWindow::on_homee_clicked()
 {
     ui->stackedWidget_2->setCurrentIndex(1);
+    ui->z1->setText("");
+    ui->z2->setText("");
+    ui->z3->setText("");
+    ui->z4->setText("");
+
+
 }
