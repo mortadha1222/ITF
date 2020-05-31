@@ -653,6 +653,10 @@ private slots:
 
     void on_tabconge_9_activated(const QModelIndex &index);
 
+    void on_pushButton_17_clicked();
+
+    void on_homee_clicked();
+
 private:
     Email createEmail();
     Email createEmail_2();

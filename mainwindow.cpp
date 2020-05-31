@@ -5734,3 +5734,271 @@ void MainWindow::on_tabconge_9_activated(const QModelIndex &index)
           QString reponse= ui->mreponse_2->currentText();
          }
 }
+
+void MainWindow::on_pushButton_17_clicked()
+{
+  //  ui->stackedWidget_2->setCurrentIndex(28);
+    QSqlQuery query;
+
+    query.prepare("SELECT NOM_PLANTE FROM PLANTE WHERE ZONE=1");
+
+    query.exec();
+
+
+
+   QGraphicsScene *scene;
+  // QGraphicsEllipseItem *ellipse;
+  QGraphicsRectItem *rectangle1;
+     QGraphicsRectItem *rectangle2;
+        QGraphicsRectItem *rectangle3;
+           QGraphicsRectItem *rectangle4;
+
+
+scene=new QGraphicsScene(this);
+ui->graphicsView->setScene(scene);
+
+
+   QPen blackpen(Qt::black);
+   blackpen.setWidth(6);
+
+    QBrush redBrush(Qt::red);
+QBrush greenBrush(Qt::green);
+float w=0;
+float w2=0;
+float w3=0;
+float w4=0;
+int col=0;
+int col2=0;
+int col3=0;
+int col4=0;
+
+
+
+QString val="4";
+QSqlQuery q;
+q.prepare("select nom_plante,surface,nombre from PLANTE where zone=1");
+if(q.exec())
+ while (q.next()) {
+     ui->z1->setText(ui->z1->text()+"\n"+q.value(0).toString());
+
+     w+=q.value(1).toFloat();
+col+=q.value(2).toInt();
+}
+
+
+
+QSqlQuery q2;
+q2.prepare("select nom_plante,surface,nombre from PLANTE where zone=2");
+if(q2.exec())
+ while (q2.next()) {
+     ui->z2->setText(ui->z2->text()+"\n"+q2.value(0).toString());
+
+     w2+=q2.value(1).toFloat();
+
+col2+=q2.value(2).toInt();
+}
+
+
+
+QSqlQuery q3;
+q3.prepare("select nom_plante,surface,nombre  from PLANTE where zone=3");
+if(q3.exec())
+ while (q3.next()) {
+     ui->z3->setText(ui->z3->text()+"\n"+q3.value(0).toString());
+     w3+=q3.value(1).toFloat();
+col3+=q3.value(2).toInt();
+
+}
+
+
+
+QSqlQuery q4;
+q4.prepare("select nom_plante,surface,nombre from PLANTE where zone=4");
+if(q4.exec())
+ while (q4.next()) {
+     ui->z4->setText(ui->z4->text()+"\n"+q4.value(0).toString());
+     w4+=q4.value(1).toFloat();
+
+col4+=q4.value(2).toInt();
+
+}
+
+
+
+//
+
+QColor c1(254,240,217);
+c1.setRgb(254,240,217);
+QBrush b1(c1);
+
+b1.setColor(c1);
+//
+
+QColor c2(253,204,138);
+c2.setRgb(253,204,138);
+QBrush b2(c2);
+
+b2.setColor(c2);
+
+//
+
+QColor c3(252,141,89);
+c3.setRgb(252,141,89);
+QBrush b3(c3);
+
+b3.setColor(c3);
+
+//
+
+QColor c4(227,74,51);
+c4.setRgb(227,74,51);
+QBrush b4(c4);
+
+b4.setColor(c4);
+
+//
+
+QColor c5(179,0,0);
+c5.setRgb(179,0,0);
+QBrush b5(c5);
+
+b5.setColor(c5);
+
+if( ui->z1->text()=="")
+{
+
+   rectangle1=scene->addRect(0,0,100,100,blackpen,greenBrush);
+}
+else
+{
+if(col<=250)
+{
+   rectangle1=scene->addRect(0,0,100,w,blackpen,b1);
+}
+if(col<=500 && col>250)
+{
+       rectangle1=scene->addRect(0,0,100,w,blackpen,b2);
+}
+
+if(col<=750 && col>500)
+{
+       rectangle1=scene->addRect(0,0,100,w,blackpen,b3);
+}
+
+if(col<=1000 && col>750)
+{
+     rectangle1=scene->addRect(0,0,100,w,blackpen,b4);
+}
+if(col>1000)
+{
+     rectangle1=scene->addRect(0,0,100,w,blackpen,b5);
+}
+
+}
+
+
+   if( ui->z2->text()=="")
+{
+       rectangle2=scene->addRect(0,100,100,100,blackpen,greenBrush);
+
+}
+else
+{
+
+
+       if(col2<=250)
+       {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b1);        }
+       if(col2<=500 && col2>250)
+       {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b2);        }
+
+       if(col2<=750 && col2>500)
+       {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b3);        }
+
+       if(col2<=1000 && col2>750)
+       {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b4);        }
+       if(col2>1000)
+       {
+rectangle2=scene->addRect(0,100,100,w2,blackpen,b5);        }
+
+
+}
+
+   if( ui->z3->text()=="")
+{
+       rectangle3=scene->addRect(0,200,200,100,blackpen,greenBrush);
+
+}
+else
+{
+
+       if(col3<=250)
+       {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b1);        }
+       if(col3<=500 && col3>250)
+       {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b2);       }
+
+       if(col3<=750 && col3>500)
+       {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b3);        }
+
+       if(col3<=1000 && col3>750)
+       {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b4);        }
+       if(col3>1000)
+       {
+rectangle3=scene->addRect(0,200,100,w3,blackpen,b5);        }
+
+     /*  ui->z3->setText(query.value(0).toString());
+
+       query.prepare("SELECT NOM_PLANTE FROM PLANTE WHERE ZONE=3");
+
+       query.exec();*/
+
+}
+
+
+   if( ui->z4->text()=="")
+{
+       rectangle4=scene->addRect(0,300,100,100,blackpen,greenBrush);
+
+}
+else
+{
+
+       if(col4<=250)
+       {
+           rectangle4=scene->addRect(0,300,100,w4,blackpen,b1);
+      }
+       if(col4<=500 && col4>250)
+       {
+           rectangle4=scene->addRect(0,300,100,w4,blackpen,b2);
+     }
+
+       if(col4<=750 && col4>500)
+       {
+           rectangle4=scene->addRect(0,300,100,w4,blackpen,b3);
+       }
+
+       if(col4<=1000 && col4>750)
+       {
+           rectangle4=scene->addRect(0,300,100,w4,blackpen,b4);
+       }
+       if(col4>1000)
+       {
+           rectangle4=scene->addRect(0,300,100,w4,blackpen,b5);
+      }
+
+}
+   ui->stackedWidget_2->setCurrentIndex(28);
+
+}
+
+void MainWindow::on_homee_clicked()
+{
+    ui->stackedWidget_2->setCurrentIndex(1);
+}
