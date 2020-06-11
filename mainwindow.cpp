@@ -2650,6 +2650,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
    if(index==1){ ui->tabouv->setModel(tmpouvrier.afficher());}
 else if(index==0) {ui->tabprofil->setModel(tmpprofil.afficher()); }
    else if(index==2 ){            ui->tabconge_9->setModel(tmpconge.afficher()); }
+   else if(index == 3 ) {     ui->tab_ab->setModel(tmpab.afficher());         }
 }
 
 void MainWindow::on_trieup_profile_clicked()
@@ -6007,4 +6008,88 @@ void MainWindow::on_homee_clicked()
     ui->z4->setText("");
 
 
+}
+
+void MainWindow::on_annulc_2_clicked()
+{
+    ui->stackedWidget_2->setCurrentIndex(1);
+    ui->tab_ab->setModel(tmpab.afficher());
+
+}
+
+void MainWindow::on_ajouter_5_clicked()
+{
+    QString type=ui->comboBox->currentText()          ;
+    QString duree =  ui->comboBox_2->currentText()           ;
+    abonnements   a (idp.toInt(),type,duree );
+    bool test=a.ajouter();
+    if(test)
+    {
+    mSystemTrayIcon->showMessage(tr("notification"),tr("ajout avec succes"));
+    ui->stackedWidget_2->setCurrentIndex(1);
+    ui->tab_ab->setModel(tmpab.afficher());
+
+    }
+
+
+}
+
+void MainWindow::on_demandec_2_clicked()
+{
+
+    ui->stackedWidget_2->setCurrentIndex(29);
+    ui->tab_ab->setModel(tmpab.afficher());
+
+
+}
+
+void MainWindow::on_tab_ab_activated(const QModelIndex &index)
+{
+   if(index.column() ==2 )
+   { QString val=ui->tab_ab->model()->data(index).toString();
+       QSqlQuery q;
+       q.prepare("select TYPE,DURÉE,ID_OUVRIER from ABONNEMENTS where ID_OUVRIER='"+val+"'");
+       if(q.exec())
+          while (q.next()) {
+          ui->lineEdit_id->setText(q.value(2).toString())  ;
+          ui->comboBox_t->setCurrentText(q.value(0).toString()) ;
+          ui->comboBox_d->setCurrentText(q.value(1).toString());
+
+         }
+ }
+
+}
+
+void MainWindow::on_supprimerplante_3_clicked()
+{
+    tmpab.supprimer(ui->lineEdit_id->text().toInt() );
+    ui->tab_ab->setModel(tmpab.afficher());
+}
+
+void MainWindow::on_mod_3_clicked()
+{
+    QString type=ui->comboBox_t->currentText()          ;
+    QString duree =  ui->comboBox_d->currentText()           ;
+    abonnements   a(ui->lineEdit_id->text().toInt(),type,duree ) ;
+    a.Modifier();
+     ui->tab_ab->setModel(tmpab.afficher());
+
+
+}
+
+void MainWindow::on_tabouv_activated(const QModelIndex &index)
+{
+    if( index.column() ==0 )
+   {
+           QString type,duree;
+           int ido=ui->tabouv->model()->data(index).toInt();
+           QSqlQuery qu;
+           qu.prepare("select * from ABONNEMENTS where ID_OUVRIER= '"+QString::number(ido)+"' ");
+           if(qu.exec())
+             while (qu.next()) {
+                 type =qu.value(0).toString();
+                 duree =qu.value(1).toString();
+                 QMessageBox::information(this,"Information Sur abonnement ouvrier ","type:"+type+" duree: "+duree+" ");
+                               }
+   }
 }

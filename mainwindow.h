@@ -32,6 +32,8 @@
 #include "produit.h"
 #include "animal.h"
 #include "conges.h"
+#include "abonnements.h"
+
 //Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 
 QT_BEGIN_NAMESPACE
@@ -657,6 +659,20 @@ private slots:
 
     void on_homee_clicked();
 
+    void on_annulc_2_clicked();
+
+    void on_ajouter_5_clicked();
+
+    void on_demandec_2_clicked();
+
+    void on_tab_ab_activated(const QModelIndex &index);
+
+    void on_supprimerplante_3_clicked();
+
+    void on_mod_3_clicked();
+
+    void on_tabouv_activated(const QModelIndex &index);
+
 private:
     Email createEmail();
     Email createEmail_2();
@@ -695,6 +711,7 @@ private:
     Animal tmpanimal;
     Produit tmpprod;
     conge tmpconge;
+    abonnements tmpab;
 
 protected:
     void changeEvent(QEvent*);
