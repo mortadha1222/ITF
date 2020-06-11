@@ -2042,8 +2042,8 @@ void MainWindow::print2(QPrinter *printer) {
     }
     // print table
     TablePrinter tablePrinter(&painter, printer);
-    QVector<int> columnStretch = QVector<int>() << 5 << 5 << 10 << 15 << 20 << 25 << 30 ;
-    ui->tabnourriture->setModel(tmpnourriture.affichern());
+    QVector<int> columnStretch = QVector<int>() << 5 << 5 << 10 << 15 << 20 << 25 << 30 << 35;
+    ui->tabfournisseur->setModel(tmpfournisseur.afficher());
     qDebug() << "tab four" <<ui->tabfournisseur->model() ;
     if(!tablePrinter.printTable(ui->tabfournisseur->model(), columnStretch)) {
         qDebug() << tablePrinter.lastError();
